@@ -8,7 +8,7 @@ const RecordsCard = () => {
     const growthRate = 8;
 
     return (
-        <div className="bg-white p-6 rounded-md shadow-xl dark:bg-gray-700 mb-6">
+        <div className="bg-white p-6 rounded-md shadow-xl dark:bg-gray-700 mb-6  w-full sm:w-fit">
             <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center">
                     <FiAward size={20} className="text-red-500 mr-2" />
@@ -26,7 +26,7 @@ const RecordsCard = () => {
                         <p className="text-xl font-bold text-gray-900 dark:text-white">{maxSeries}</p>
                     </div>
                 </div>
-                <div className="flex justify-around mb-4 gap-8">
+                <div className="flex justify-between mb-4 gap-8">
                     <div>
                         <p className="text-sm text-gray-900 dark:text-white">Pontuação Média</p>
                         <p className="text-xl font-bold text-gray-900 dark:text-white">{averageScore}</p>

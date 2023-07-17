@@ -30,7 +30,7 @@ const DashboardPage = () => {
             <WeeklyGoalCard completedExercises={completedExercises} weeklyGoal={weeklyGoal} />
             <LevelCard currentLevel={currentLevel} />
             <RecordsCard />
-
+            
           </div>
 
           <div className='flex flex-row gap-4 flex-wrap '>
