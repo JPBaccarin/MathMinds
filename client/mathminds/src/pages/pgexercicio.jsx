@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { FiCheck, FiX } from 'react-icons/fi';
 
 const ExercisePage = () => {
-    const [currentExercise, setCurrentExercise] = useState(1);
+    const [currentExercise, setCurrentExercise] = useState(0);
     const [selectedOption, setSelectedOption] = useState('');
-    const [showFeedback, setShowFeedback] = useState(false);
-    const [isCorrect, setIsCorrect] = useState(false);
-    const [progress, setProgress] = useState(0);
+    const [correctCount, setCorrectCount] = useState(0);
+    const [quizCompleted, setQuizCompleted] = useState(false);
 
     const exercises = [
         {
@@ -25,19 +24,16 @@ const ExercisePage = () => {
     ];
 
     const handleNextExercise = () => {
-        setSelectedOption('');
-        setShowFeedback(false);
-        setCurrentExercise(currentExercise + 1);
-        setProgress((currentExercise / exercises.length) * 100);
-    };
-
-    const handleCheckAnswer = () => {
-        setShowFeedback(true);
-        const currentExerciseObj = exercises.find(exercise => exercise.id === currentExercise);
+        const currentExerciseObj = exercises[currentExercise];
         if (selectedOption === currentExerciseObj.correctAnswer) {
-            setIsCorrect(true);
+            setCorrectCount(correctCount + 1);
+        }
+
+        if (currentExercise + 1 < exercises.length) {
+            setCurrentExercise(currentExercise + 1);
+            setSelectedOption('');
         } else {
-            setIsCorrect(false);
+            setQuizCompleted(true);
         }
     };
 
@@ -45,20 +41,60 @@ const ExercisePage = () => {
         setSelectedOption(option);
     };
 
+    const renderQuestionList = () => {
+        return exercises.map((exercise) => {
+          const isCorrect = exercise.correctAnswer === selectedOption;
+          const icon = isCorrect ? (
+            <FiCheck className="text-green-500 mr-2" />
+          ) : (
+            <FiX className="text-red-500 mr-2" />
+          );
+          const selectedOptionText = selectedOption ? (
+            <p className={`text-sm ${isCorrect ? 'text-green-500' : 'text-red-500'} `}>
+              <strong>Resposta escolhida:</strong> <span >{selectedOption}</span>
+            </p>
+          ) : null;
+      
+          return (
+            <div key={exercise.id} className="mb-4">
+              <div className="flex items-center">
+                {icon}
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  {exercise.question}
+                </h3>
+              </div>
+              {selectedOptionText}
+              <p className="text-sm text-gray-700 dark:text-gray-300">
+                <strong>Resposta correta:</strong> {exercise.correctAnswer}
+              </p>
+              <hr className="my-2" />
+            </div>
+          );
+        });
+      };
+      
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-red-300 dark:bg-gray-900">
-            <div className="max-w-md w-full mx-auto p-8 bg-stone-100 dark:bg-gray-800 rounded-md shadow-2xl">
-                <h1 className="text-3xl font-extrabold text-center text-gray-900 dark:text-white mb-4">
-                    Exercício {currentExercise}
-                </h1>
-                {currentExercise <= exercises.length ? (
+            <div className="max-w-md w-full mx-auto p-8 bg-white dark:bg-gray-800 rounded-md shadow-2xl">
+                {!quizCompleted ? (
                     <>
-                        <p className="text-gray-900 dark:text-white">{exercises[currentExercise - 1].question}</p>
+                        <h1 className="text-3xl font-extrabold text-center text-gray-900 dark:text-white mb-4">
+                            Quiz de Matemática
+                        </h1>
+                        <h2 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
+                            Questão {currentExercise + 1}
+                        </h2>
+                        <p className="text-sm text-gray-700 dark:text-gray-300">
+                            {exercises[currentExercise].question}
+                        </p>
                         <div className="grid grid-cols-2 gap-4 mt-4">
-                            {exercises[currentExercise - 1].options.map((option, index) => (
+                            {exercises[currentExercise].options.map((option, index) => (
                                 <div
                                     key={index}
-                                    className={`flex items-center justify-center border rounded-md p-2 transition duration-300 ${selectedOption === option ? 'bg-blue-500 text-white' : 'bg-white text-gray-900 dark:text-white dark:bg-gray-700'
+                                    className={`flex items-center justify-center border dark:border-white/10 border-black/10 rounded-md p-2 transition duration-300 ${selectedOption === option
+                                        ? 'bg-blue-500 dark:border-white/20 border-black/20 text-white'
+                                        : 'bg-white text-gray-900 dark:text-white dark:bg-gray-700'
                                         }`}
                                     onClick={() => handleOptionChange(option)}
                                 >
@@ -66,47 +102,28 @@ const ExercisePage = () => {
                                 </div>
                             ))}
                         </div>
-                        <button
-                            onClick={handleCheckAnswer}
-                            className="block w-full bg-red-500 hover:bg-red-600 focus:bg-red-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 transform-gpu hover:scale-105 focus:scale-105 mt-4"
-                        >
-                            Verificar Resposta
-                        </button>
-                        {showFeedback && (
-                            <div className="mt-4">
-                                {isCorrect ? (
-                                    <div className="flex items-center text-green-500">
-                                        <FiCheck className="mr-2" />
-                                        <span>Resposta correta!</span>
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center text-red-500">
-                                        <FiX className="mr-2" />
-                                        <span>Resposta incorreta!</span>
-                                    </div>
-                                )}
-                            </div>
+                        {selectedOption && (
+                            <button
+                                onClick={handleNextExercise}
+                                className="block w-full bg-red-500 hover:bg-red-600 focus:bg-red-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 transform-gpu hover:scale-105 focus:scale-105 mt-4"
+                            >
+                                Próxima Questão
+                            </button>
                         )}
-                        <div className="flex items-center justify-between mt-4">
-                            <div className="text-gray-700 dark:text-gray-300">{currentExercise}/{exercises.length}</div>
-                            <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                                <div
-                                    className="h-full bg-red-500"
-                                    style={{ width: `${progress}%` }}
-                                ></div>
-                            </div>
-                        </div>
-                        <button
-                            onClick={handleNextExercise}
-                            className={`block w-full bg-red-500 hover:bg-red-600 focus:bg-red-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 transform-gpu hover:scale-105 focus:scale-105 mt-4 ${!showFeedback ? 'pointer-events-none opacity-50' : ''
-                                }`}
-                            disabled={!showFeedback}
-                        >
-                            Próximo Exercício
-                        </button>
                     </>
                 ) : (
-                    <p className="text-gray-900 dark:text-white">Parabéns, você concluiu todos os exercícios!</p>
+                    <>
+                        <h1 className="text-3xl font-extrabold text-center text-gray-900 dark:text-white mb-4">
+                            Quiz Finalizado!
+                        </h1>
+                        <p className="text-gray-900 dark:text-white">
+                            Você acertou {correctCount} de {exercises.length} questões.
+                        </p>
+                        <h2 className="text-lg font-semibold mt-4 mb-2 dark:text-white">
+                            Lista de Questões:
+                        </h2>
+                        {renderQuestionList()}
+                    </>
                 )}
             </div>
         </div>
