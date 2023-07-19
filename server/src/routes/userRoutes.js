@@ -3,10 +3,10 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
-// Get all users
-router.get('/', userController.getAllUsers);
+// Rota para criar um novo usuário
+router.post('/signup', userController.createUser);
 
-// Create a new user
-router.post('/', userController.createUser);
+// Rota para autenticar o login do usuário
+router.post('/login', userController.authenticateUser);
 
 module.exports = router;

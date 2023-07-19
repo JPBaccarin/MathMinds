@@ -1,28 +1,24 @@
 const express = require('express');
 const cors = require('cors');
-const exerciseRoutes = require('./src/routes/exerciseRoutes');
-const scoreRoutes = require('./src/routes/scoreRoutes');
-const userRoutes = require('./src/routes/userRoutes');
+const userRoutes = require('./routes/userRoutes');
+const quizRoutes = require('./routes/quizRoutes');
+const exerciseRoutes = require('./routes/exerciseRoutes');
 
 const app = express();
+const port = 3000;
 
-// Middleware
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 
-// Routes
-app.use('/exercises', exerciseRoutes);
-app.use('/scores', scoreRoutes);
+// Rotas para usuários
 app.use('/users', userRoutes);
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error('Error:', err);
-  res.status(500).json({ error: 'Internal Server Error' });
-});
+// Rotas para quizzes
+app.use('/quizzes', quizRoutes);
 
-// Start the server
-const port = process.env.PORT || 3000;
+// Rotas para exercícios
+app.use('/exercises', exerciseRoutes);
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
