@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import WeeklyGoalCard from '../components/goalcard';
-import LevelCard from '../components/levelcard';
-import RecordsCard from '../components/recordcard';
-import ExerciseSelectionCard from '../components/exselectcard';
-import LastQuizCard from '../components/lastquizcard';
+import WeeklyGoalCard from '../components/dashboardpage/goalcard';
+import LevelCard from '../components/dashboardpage/levelcard';
+import RecordsCard from '../components/dashboardpage/recordcard';
+import ExerciseSelectionCard from '../components/dashboardpage/exselectcard';
+import LastQuizCard from '../components/dashboardpage/lastquizcard';
 
 
 const DashboardPage = () => {

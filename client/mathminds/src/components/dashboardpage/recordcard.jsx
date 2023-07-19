@@ -8,7 +8,7 @@ const RecordsCard = () => {
     const growthRate = 8;
 
     return (
-        <div className="bg-white p-6 rounded-md shadow-xl dark:bg-gray-700 mb-6  w-full sm:w-fit">
+        <div className="bg-white p-6 rounded-md shadow-lg dark:bg-gray-700 mb-6  w-full sm:w-fit">
             <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center">
                     <FiAward size={20} className="text-red-500 mr-2" />
