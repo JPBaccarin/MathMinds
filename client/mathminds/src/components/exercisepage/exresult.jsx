@@ -1,18 +1,18 @@
 import React from 'react';
 import { FiCheck, FiX } from 'react-icons/fi';
 
-const ExerciseResult = ({ correctCount, totalQuestions, exercises, selectedOption }) => {
+const ExerciseResult = ({ correctCount, totalQuestions, exercises }) => {
   const renderQuestionList = () => {
     return exercises.map((exercise) => {
-      const isCorrect = exercise.correctAnswer === selectedOption;
+      const isCorrect = exercise.selectedOption === exercise.correctAnswer;
       const icon = isCorrect ? (
         <FiCheck className="text-green-500 mr-2" />
       ) : (
         <FiX className="text-red-500 mr-2" />
       );
-      const selectedOptionText = selectedOption ? (
+      const selectedOptionText = exercise.selectedOption ? (
         <p className={`text-sm ${isCorrect ? 'text-green-500' : 'text-red-500'} `}>
-          <strong>Resposta escolhida:</strong> <span>{selectedOption}</span>
+          <strong>Resposta escolhida:</strong> <span>{exercise.selectedOption}</span>
         </p>
       ) : null;
 

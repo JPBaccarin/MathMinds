@@ -5,7 +5,7 @@ const RecordsCard = () => {
     const maxScore = 1850;
     const maxSeries = 12;
     const averageScore = 1450;
-    const growthRate = 8;
+    const growthRate = ((1850-1450)/1850*100).toFixed(2);
 
     return (
         <div className="bg-white p-6 rounded-md shadow-lg dark:bg-gray-700 mb-6  w-full sm:w-fit">

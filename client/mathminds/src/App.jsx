@@ -4,10 +4,13 @@ import SignupPage from './pages/signup';
 import LoginPage from './pages/login';
 import ExercisePage from './pages/pgexercicio';
 import DashboardPage from './pages/dashboard';
+import Sidebar from './components/Sidebar';
+
 
 const App = () => {
   return (
     <><div>
+      <Sidebar />
       <Router>
         <Routes>
           <Route path="/login" element={<LoginPage />} />

@@ -3,45 +3,57 @@ import ExerciseOptions from '../components/exercisepage/exoptions';
 import ExerciseQuestion from '../components/exercisepage/exquestions';
 import ExerciseResult from '../components/exercisepage/exresult';
 
-
 const ExercisePage = () => {
   const [currentExercise, setCurrentExercise] = useState(0);
-  const [selectedOption, setSelectedOption] = useState('');
+  const [exercises, setExercises] = useState(() => {
+    // Initialize exercises with the selectedOption set to null for each question
+    return [
+      {
+        id: 1,
+        question: 'Qual é o resultado da pergunta 1?',
+        options: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
+        correctAnswer: 'Resposta 1',
+        selectedOption: null,
+      },
+      {
+        id: 2,
+        question: 'Qual é o resultado da pergunta 2?',
+        options: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
+        correctAnswer: 'Resposta 1',
+        selectedOption: null,
+      },
+      // Add more questions here...
+      {
+        id: 3,
+        question: 'Qual é o resultado da pergunta 3?',
+        options: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
+        correctAnswer: 'Resposta 1',
+        selectedOption: null,
+      },
+    ];
+  });
   const [correctCount, setCorrectCount] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
 
-  const exercises = [
-    {
-      id: 1,
-      question: 'Qual é o resultado de 2 + 2?',
-      options: ['3', '4', '5', '6'],
-      correctAnswer: '4',
-    },
-    {
-      id: 2,
-      question: 'Qual é o resultado de 5 - 3?',
-      options: ['2', '3', '4', '5'],
-      correctAnswer: '2',
-    },
-    // Adicione mais exercícios aqui
-  ];
-
   const handleNextExercise = () => {
     const currentExerciseObj = exercises[currentExercise];
-    if (selectedOption === currentExerciseObj.correctAnswer) {
+    if (currentExerciseObj.selectedOption === currentExerciseObj.correctAnswer) {
       setCorrectCount(correctCount + 1);
     }
 
     if (currentExercise + 1 < exercises.length) {
       setCurrentExercise(currentExercise + 1);
-      setSelectedOption('');
     } else {
       setQuizCompleted(true);
     }
   };
 
   const handleOptionChange = (option) => {
-    setSelectedOption(option);
+    setExercises((prevExercises) => {
+      const updatedExercises = [...prevExercises];
+      updatedExercises[currentExercise].selectedOption = option;
+      return updatedExercises;
+    });
   };
 
   return (
@@ -58,10 +70,10 @@ const ExercisePage = () => {
             />
             <ExerciseOptions
               options={exercises[currentExercise].options}
-              selectedOption={selectedOption}
+              selectedOption={exercises[currentExercise].selectedOption}
               handleOptionChange={handleOptionChange}
             />
-            {selectedOption && (
+            {exercises[currentExercise].selectedOption && (
               <button
                 onClick={handleNextExercise}
                 className="block w-full bg-red-500 hover:bg-red-600 focus:bg-red-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 transform-gpu hover:scale-105 focus:scale-105 mt-4"
@@ -71,7 +83,11 @@ const ExercisePage = () => {
             )}
           </>
         ) : (
-          <ExerciseResult correctCount={correctCount} totalQuestions={exercises.length} exercises={exercises} selectedOption={selectedOption} />
+          <ExerciseResult
+            correctCount={correctCount}
+            totalQuestions={exercises.length}
+            exercises={exercises}
+          />
         )}
       </div>
     </div>
