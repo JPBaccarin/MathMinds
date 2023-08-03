@@ -5,6 +5,8 @@ import LoginPage from './pages/login';
 import ExercisePage from './pages/pgexercicio';
 import DashboardPage from './pages/dashboard';
 import Sidebar from './components/Sidebar';
+import Essay from './pages/essay';
+import Learning from './pages/learning';
 
 
 const App = () => {
@@ -16,7 +18,9 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/exercise" element={<ExercisePage />} />
+          <Route path="/essay" element={<Essay />} />
           <Route path="/" element={<DashboardPage />} />
+          <Route path="/learning" element={<Learning />} />
 
         </Routes>
       </Router>

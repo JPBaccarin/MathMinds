@@ -36,7 +36,7 @@ const Sidebar = () => {
                     />
                     <h1 className="text-lg font-semibold">Usuário</h1>
                     <div className="flex flex-col mt-4">
-                        <a href="/learning" className="mb-2 py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
+                        <a href="/Learning" className="mb-2 py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
                             <FaRegLightbulb className="inline-block mr-2 fill-red-500" />
                             Learning
                         </a>
